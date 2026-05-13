@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TodoServer.Tests\TodoServer.Tests.csproj" />
+  <Project Path="TodoServer\TodoServer.csproj" />
+</Solution>
