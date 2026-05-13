@@ -35,9 +35,7 @@ npm install
 npm start
 ```
 
-You can also use `ng serve`.
-
-Open `http://localhost:4200/` in your browser.
+You can also use `ng serve`. After this, open `http://localhost:4200/` in your browser.
 
 ## Useful commands
 
