@@ -37,6 +37,19 @@ public class TodoServiceTests
     }
 
     [Fact]
+    public void Add_WhenItemHasExistingId_AssignsNextServerId()
+    {
+        var service = CreateService();
+        var item = new TodoItem { Id = 99, Title = "Client supplied id" };
+
+        var created = service.Add(item);
+
+        Assert.Equal(1, created.Id);
+        var stored = Assert.Single(service.GetAll());
+        Assert.Equal(1, stored.Id);
+    }
+
+    [Fact]
     public void Update_WhenItemExists_ReplacesTodoItem()
     {
         var service = CreateService();
@@ -45,6 +58,28 @@ public class TodoServiceTests
         var updatedItem = new TodoItem
         {
             Id = item.Id,
+            Title = "Updated",
+            IsCompleted = true
+        };
+
+        var updated = service.Update(item.Id, updatedItem);
+
+        Assert.True(updated);
+        var stored = Assert.Single(service.GetAll());
+        Assert.Equal(item.Id, stored.Id);
+        Assert.Equal("Updated", stored.Title);
+        Assert.True(stored.IsCompleted);
+    }
+
+    [Fact]
+    public void Update_WhenItemHasDifferentId_PreservesStoredId()
+    {
+        var service = CreateService();
+        var item = new TodoItem { Title = "Original" };
+        service.Add(item);
+        var updatedItem = new TodoItem
+        {
+            Id = 999,
             Title = "Updated",
             IsCompleted = true
         };

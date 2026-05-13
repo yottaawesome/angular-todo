@@ -13,9 +13,9 @@ public class TodoService
         _database = database;
     }
 
-    public void Add(TodoItem item)
+    public TodoItem Add(TodoItem item)
     {
-        _database.Add(item);
+        return _database.Add(item);
     }
 
     public bool Update(int id, TodoItem item)

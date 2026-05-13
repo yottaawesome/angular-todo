@@ -10,12 +10,13 @@ public class InMemoryTodoStore : ITodoDataStore
     private int _nextId = 1;
     private List<TodoItem> _items { get; } = new();
 
-    public void Add(TodoItem item)
+    public TodoItem Add(TodoItem item)
     {
         lock (_lock)
         {
             item.Id = _nextId++;
             _items.Add(item);
+            return item;
         }
     }
 
@@ -26,6 +27,8 @@ public class InMemoryTodoStore : ITodoDataStore
             var index = _items.FindIndex(i => i.Id == id);
             if (index != -1)
             {
+                // Make sure the id of the item being updated doesn't change.
+                item.Id = _items[index].Id;
                 _items[index] = item;
                 return true;
             }

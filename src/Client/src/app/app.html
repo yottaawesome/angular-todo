@@ -1,0 +1,97 @@
+<main class="main" aria-labelledby="app-title">
+  <h1 id="app-title">{{ title }}</h1>
+
+  <label class="visually-hidden" for="addItemInput">New todo item</label>
+  <input
+    [(ngModel)]="newItemDescription"
+    placeholder="Describe an item you want to accomplish today..."
+    (keyup.enter)="addItem(newItemDescription());"
+    class="lg-text-input"
+    id="addItemInput"
+    aria-describedby="addItemHelp" />
+  <p class="visually-hidden" id="addItemHelp">
+    Enter a description, then press Enter or select Add to create a todo item.
+  </p>
+
+  @if(state$ | async; as state) {
+    @if(state.error) {
+    <div class="error-alert" role="alert">
+      <p>{{ state.error }}</p>
+      <button type="button" (click)="retryLoad()">Retry</button>
+    </div>
+    }
+
+    <button
+      type="button"
+      class="btn-primary"
+      [disabled]="newItemDescription().trim() === '' || state.isLoading"
+      (click)="addItem(newItemDescription());">
+      Add
+    </button>
+
+    @if(state.isLoading) {
+    <p class="status-message" role="status">Loading todos...</p>
+    }
+  }
+
+  <section aria-labelledby="todo-list-heading">
+    <h2 id="todo-list-heading">What are your goals for today?</h2>
+
+    <table class="items-table">
+      <caption class="visually-hidden">Todo items with completion status and delete actions.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Completed</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(item of items$ | async; track item.id){
+        <tr>
+          <td>{{item.title}}</td>
+          <td>
+            <input
+              #completedCheckbox
+              type="checkbox"
+              [checked]="item.isCompleted"
+              [attr.aria-label]="'Mark ' + item.title + ' as ' + (item.isCompleted ? 'not completed' : 'completed')"
+              (change)="updateItem(item, completedCheckbox.checked)">
+          </td>
+          <td>
+            @if(pendingDeleteId() === item.id) {
+            <div class="item-actions">
+              <button
+                type="button"
+                class="btn-danger"
+                (click)="confirmDelete(item.id)"
+                [attr.aria-label]="'Confirm delete ' + item.title"
+                title="Confirm delete">
+                Confirm delete
+              </button>
+              <button
+                type="button"
+                class="btn-secondary"
+                (click)="cancelDelete()"
+                [attr.aria-label]="'Cancel deleting ' + item.title"
+                title="Cancel delete">
+                Cancel
+              </button>
+            </div>
+            } @else {
+            <button
+              type="button"
+              class="btn-danger"
+              (click)="requestDelete(item.id)"
+              [attr.aria-label]="'Delete ' + item.title"
+              title="Delete">
+              Delete
+            </button>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</main>
