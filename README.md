@@ -16,6 +16,10 @@ If this is your first time running an ASP.NET Core HTTPS app locally, trust the 
 dotnet dev-certs https --trust
 ```
 
+## Structure
+
+The codebase is located in the src directory. The Angular client is in the `Client` directory and the server is in the `Server` directory.
+
 ## Run the server
 
 Open the TodoServer.slnx solution with Visual Studio and run it. Alternatively, you can also run it via the CLI. From the repository root:
