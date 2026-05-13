@@ -66,5 +66,6 @@ npm run build
 * An in-memory data store is used to store the items. In a production app, you would use some data abstraction framework like Entity Framework, Linq2DB, etc, over a database. You would also need some way to version and maintain the schema.
 * I've applied ARIA tags to where they make sense. These aren't required, just a statement that accessibility matters.
 * I've structured the client and server how I would expect a production codebase should look like. That being said, the minimal version was a lot smaller given the app itself is fairly trivial.
-* LLMs (specifically Copilot+GPT-5.5) were used for review, fixes, and for unit test and documentation generation. The bulk of the coding was done manually as I thought this would be a good exercise.
+* LLMs (specifically Copilot+GPT-5.5) were used for review, fixes, styling and for unit test and documentation generation. The bulk of the coding was done manually as I thought this would be a good exercise.
 * The client will enter a visible error state if the server is unavailable.
+* I've chosen CSS to style the client. On a more complex app, something like Tailwind would be more suitable.
